@@ -1,0 +1,86 @@
+Files: *
+Copyright: (C) 2007-2020 Pico Technology Limited
+License:
+ Grant of license. The material contained in this release is licensed, not sold.
+ Pico Technology Limited ('Pico') grants a license to the person who installs
+ this software, subject to the conditions listed below.
+ .
+ Access. The licensee agrees to allow access to this software only to persons
+ who have been informed of and agree to abide by these conditions.
+ .
+ Usage. The software in this release is for use only with Pico products or with
+ data collected using Pico products. Attached examples and source code (files in
+ opt/picoscope/share) can be freely modified and reused in other projects.
+ .
+ Copyright. Pico claims the copyright of, and retains the rights to, all material 
+ (software, documents etc., unless explicitly expressed) contained in this release.
+ .
+ Liability. Pico and its agents shall not be liable for any loss or damage, 
+ howsoever caused, related to the use of Pico Technology equipment or software, 
+ unless excluded by statute.
+ .
+ Fitness for purpose. No two applications are the same, so Pico cannot guarantee
+ that its equipment or software is suitable for a given application. It is therefore
+ the user's responsibility to ensure that the product is suitable for the user's 
+ application.
+ .
+ Mission-critical applications. Because the software runs on a computer that may 
+ be running other software products, and may be subject to interference from these
+ other products, this license specifically excludes usage in 'mission-critical'
+ applications, for example life-support systems.
+ .
+ Viruses. This software was continuously monitored for viruses during production.
+ However, the user is responsible for virus checking the software once it is 
+ installed.
+ .
+ Support. No software is ever error-free, but if you are dissatisfied with
+ the performance of this software, please contact our technical support staff.
+
+Files: PdfSharp.dll
+Copyright: (c) 2005-2007 empira Software GmbH, Cologne (Germany)
+License:
+ Permission is hereby granted, free of charge, to any person obtaining a copy 
+ of this software and associated documentation files (the "Software"), to deal 
+ in the Software without restriction, including without limitation the rights 
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
+ copies of the Software, and to permit persons to whom the Software is 
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in 
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ THE SOFTWARE.
+
+Files: ICSharpCode.SharpZipLib.dll
+Copyright: (c) 2001-2012 IC#Code
+License:
+ The library is released under the GPL with the following exception:
+ .
+ Linking this library statically or dynamically with other modules is 
+ making a combined work based on this library. Thus, the terms and 
+ conditions of the GNU General Public License cover the whole combination.
+ .
+ As a special exception, the copyright holders of this library give you 
+ permission to link this library with independent modules to produce an 
+ executable, regardless of the license terms of these independent modules, 
+ and to copy and distribute the resulting executable under terms of your 
+ choice, provided that you also meet, for each linked independent module, 
+ the terms and conditions of the license of that module. An independent 
+ module is a module which is not derived from or based on this library. 
+ If you modify this library, you may extend this exception to your version 
+ of the library, but you are not obligated to do so. If you do not wish 
+ to do so, delete this exception statement from your version.
+
+Files: System.Net.Http.dll
+Copyright: (c) Microsoft Corporation
+License:
+ Redistributed under MICROSOFT SOFTWARE LICENSE TERMS for MICROSOFT .NET LIBRARY
+ .
+ URL: http://www.microsoft.com/web/webpi/eula/aspnetcomponent_rtw_enu.htm
+

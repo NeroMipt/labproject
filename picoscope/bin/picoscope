@@ -1,0 +1,41 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH="/opt/picoscope/lib:$LD_LIBRARY_PATH"
+
+CLI_CMD=$(which cli 2>/dev/null)
+MONO_CMD=$(which mono 2>/dev/null)
+
+if [ "x" = "x""$CLI_CMD""$MONO_CMD" ];
+then
+    MSG="Mono runtime binary not found. Make sure that mono-complete and gtk-sharp2 packages are correctly installed. "
+else
+    if [ "x" != "x""$MONO_CMD" ];
+    then
+        RUN_CMD=$MONO_CMD
+    else
+        RUN_CMD=$CLI_CMD
+    fi
+    if [ ! -x $RUN_CMD ];
+    then
+        MSG="Mono runtime binary unusable. Make sure that mono-complete and gtk-sharp2 packages are correctly installed. "
+    fi
+fi
+
+if [ "x" != "x""$MSG" ];
+then
+    if [ -x /usr/bin/notify-send ];
+    then
+        ICON=""
+        if [ -e /opt/picoscope/share/picoscope.png ];
+        then
+            ICON=" --icon=/opt/picoscope/picoscope.png"
+        fi
+        /usr/bin/notify-send $ICON -t 0 -u normal -a picoscope "$MSG"
+    else
+        echo "$MSG" 1>&2
+    fi
+    exit 1
+fi
+
+cd /opt/picoscope/lib
+exec "$RUN_CMD" "/opt/picoscope/lib/PicoScope.GTK.exe" >/dev/null 2>&1

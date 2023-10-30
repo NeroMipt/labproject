@@ -1,0 +1,37 @@
+Files: *
+Copyright: (C) 2007-2014 Pico Technology Limited
+License:
+ Grant of license. The material contained in this release is licensed, not sold.
+ Pico Technology Limited ('Pico') grants a license to the person who installs
+ this software, subject to the conditions listed below.
+ .
+ Access. The licensee agrees to allow access to this software only to persons
+ who have been informed of and agree to abide by these conditions.
+ .
+ Usage. The software in this release is for use only with Pico products or with
+ data collected using Pico products. Attached examples and source code (files in
+ opt/picoscope/share) can be freely modified and reused in other projects.
+ .
+ Copyright. Pico claims the copyright of, and retains the rights to, all material 
+ (software, documents etc., unless explicitly expressed) contained in this release.
+ .
+ Liability. Pico and its agents shall not be liable for any loss or damage, 
+ howsoever caused, related to the use of Pico Technology equipment or software, 
+ unless excluded by statute.
+ .
+ Fitness for purpose. No two applications are the same, so Pico cannot guarantee
+ that its equipment or software is suitable for a given application. It is therefore
+ the user's responsibility to ensure that the product is suitable for the user's 
+ application.
+ .
+ Mission-critical applications. Because the software runs on a computer that may 
+ be running other software products, and may be subject to interference from these
+ other products, this license specifically excludes usage in 'mission-critical'
+ applications, for example life-support systems.
+ .
+ Viruses. This software was continuously monitored for viruses during production.
+ However, the user is responsible for virus checking the software once it is 
+ installed.
+ .
+ Support. No software is ever error-free, but if you are dissatisfied with
+ the performance of this software, please contact our technical support staff.

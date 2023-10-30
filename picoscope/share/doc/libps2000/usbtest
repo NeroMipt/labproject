@@ -1,0 +1,114 @@
+#!/bin/bash
+
+echo
+echo "****************************************************************************"
+echo "*                  Pico Technology Linux USB Diagnostics                   *"
+echo "****************************************************************************"
+echo
+echo "This script looks for Pico USB devices connected to your computer"
+echo "and checks whether you are able to access them. If your user account"
+echo "does not have permission to access the devices, the script will try"
+echo "to suggest how to correct this for your particular Linux installation."
+echo
+read -p "Press enter to continue..."
+echo
+echo "Getting user and group information..."
+
+# Get user and group names
+username=$(id -un)
+usergroups=$(id -Gn)
+
+echo " - You are running this script as $username."
+echo " - You are in the following groups:"
+echo "     $usergroups"
+
+if [ $username = "root" ]
+then
+	echo
+	echo "****************************************************************************"
+	echo "                          RUNNING AS ROOT!                                 *"
+	echo "* It is OK to run this script as root for testing purposes, but it is      *"
+	echo "* neither recommended nor necessary to run the Pico USB drivers as root    *"
+	echo "* once you have set your system up correctly.                              *"
+	echo "****************************************************************************"
+	echo
+fi
+echo
+read -p "Please connect your Pico USB device and press enter to continue..."
+
+devicefound=0
+unwriteabledevice=0
+
+# Try /dev and then /proc
+for devicepath in /dev/bus/usb/ /proc/bus/usb/
+do
+	if [ -d $devicepath ]
+	then
+		for file in $(find $devicepath -not -type d)
+		do 
+			# Get the VID from the descriptor and compare it with Pico's
+			idVendor=$(hexdump -s8 -n2 -e'1/2 "%04x"' $file)
+			if [ _$idVendor  = _"0ce9" ]
+			then 
+				echo
+				echo "Pico USB device found: $file"
+				devicefound=1;
+				owner=$(stat --printf "%U" $file)
+				group=$(stat --printf "%G" $file)
+				permissions=$(stat --printf "%A" $file)
+				# Parse the permissions fields
+				ownerperms=$(echo $permissions | sed "s/.\(...\).*/\1/")
+				groupperms=$(echo $permissions | sed "s/....\(...\).*/\1/")
+				otherperms=$(echo $permissions | sed "s/.......\(...\).*/\1/")
+				# Determine whether the user is in the group of the file
+				grouptest=$(echo \ $usergroups\  | sed "s/.*\ \($group\)\ .*/\1/")
+	
+				# Use this variable to check if the user is neither the owner nor in the group
+				userisother=" (this is you)"
+				if [ "$owner" = "$username" ]
+				then
+					userisowner="is"
+					userisother=""
+				else
+					userisowner="is not"
+				fi
+	
+				if [ "$group" = "$grouptest" ]
+				then
+					useringroup="are"
+					userisother=""
+				else
+					useringroup="are not"
+				fi
+			
+				echo
+				echo " - It belongs to $owner (which $userisowner you) who has permissions $ownerperms"
+				echo " - The members of group $group (which you $useringroup in) have permissions $groupperms"
+				echo " - Everyone else$userisother has permissions $otherperms"
+	
+				# Test if the file is writable
+				if [ -w $file ]
+				then
+					echo " - You can write to this device and so will be able to use it."
+					break
+				else
+					# We found an unwriteable device - this is a problem
+					unwriteabledevice=1
+					echo " - You CANNOT write to this device and so will NOT be able to use it."
+					echo "   Please see the driver installation instructions for assistance in "
+					echo "   resolving this problem "
+				fi
+				echo
+	
+	
+			fi
+		
+		done
+	fi
+	if [ $devicefound -ne 1 ]
+	then
+		echo "   Pico USB device not found. Please try again"
+		break
+	fi
+
+done
