@@ -549,7 +549,6 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
 	int16_t 	time_units;
 	int16_t 	oversample;
 	int32_t 	no_of_samples = BUFFER_SIZE;
-	FILE *		fp;
 	int16_t 	auto_trigger_ms = 0;
 	int32_t 	time_indisposed_ms;
 	int16_t 	overflow;

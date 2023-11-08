@@ -31,3 +31,5 @@ unix:!macx: LIBS += -L$$PWD/picoscope/lib/ -lps2000
 
 INCLUDEPATH += $$PWD/picoscope/include/libps2000
 DEPENDPATH += $$PWD/picoscope/include/libps2000
+
+unix|win32: LIBS += -lfftw3
