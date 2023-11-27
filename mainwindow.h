@@ -28,6 +28,7 @@ public:
     fftw_plan mFftPlan;
     double *mFftIn;
     double *mFftOut;
+    double freqMult;
 
 private slots:
     void on_startButton_clicked();
@@ -35,6 +36,8 @@ private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
+
+    void on_test_clicked();
 
 private:
     Ui::MainWindow *ui;

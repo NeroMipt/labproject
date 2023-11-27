@@ -567,23 +567,23 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
 	/*  Find the maximum number of samples, the time interval (in time_units),
 	*		 the most suitable time units, and the maximum oversample at the current timebase
 	*/
-	oversample = 1;
-	while (!ps2000_get_timebase ( unitOpened.handle,
+    oversample = 1;
+    while (!ps2000_get_timebase ( unitOpened.handle,
                         timebase,
   					    no_of_samples,
                         &time_interval,
                         &time_units,
                         oversample,
                         &max_samples))
-	timebase++;
+    timebase++;
 
-    //printf ( "timebase: %hd\toversample:%hd\n", timebase, oversample );
+    qDebug ( "timebase: %hd\toversample:%hd\n, maxsamples: %d\n", timebase, oversample, max_samples );
 	
 	/* Start it collecting,
 	*  then wait for completion
 	*/
-
-	ps2000_run_block ( unitOpened.handle, no_of_samples, timebase, oversample, &time_indisposed_ms );
+    timebase = 2;
+    ps2000_run_block ( unitOpened.handle, no_of_samples, timebase, oversample, &time_indisposed_ms );
 	
 	while ( !ps2000_ready ( unitOpened.handle ) )
 	{
@@ -609,7 +609,7 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
     //printf ( "First 10 readings\n\n" );
     //printf ( "Time(%s) Values\n", adc_units ( time_units ) );
 
-	for ( i = 0; i < 10; i++ )
+    /*for ( i = 0; i < 10; i++ )
 	{
         //printf( "%d\t", times[i] );
 
@@ -621,7 +621,7 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
 			}
 		}
         //printf("\n");
-	}
+    }*/
 
     //fopen_s (&fp, "data.txt","w" );
 
@@ -638,8 +638,8 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
                 //fprintf ( fp, ", %d, %d", unitOpened.channelSettings[ch].values[i],
                                         //	adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range) );
                 if(ch % 2)
-                    VoltageB_axisY[i] = adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
-                else VoltageA_axisY[i] = adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
+                    VoltageB_axisY[i] = 2 * adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
+                else VoltageA_axisY[i] = 2 * adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
 
 			}
 		}
