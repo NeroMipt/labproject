@@ -224,8 +224,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>990</x>
-      <y>180</y>
+      <x>460</x>
+      <y>40</y>
       <width>16</width>
       <height>19</height>
      </rect>
@@ -237,8 +237,8 @@
    <widget class="QSpinBox" name="resister">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>180</y>
+      <x>480</x>
+      <y>40</y>
       <width>45</width>
       <height>21</height>
      </rect>
@@ -250,8 +250,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>990</x>
-      <y>150</y>
+      <x>460</x>
+      <y>10</y>
       <width>31</width>
       <height>19</height>
      </rect>
@@ -263,8 +263,8 @@
    <widget class="QSpinBox" name="capacity">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>150</y>
+      <x>480</x>
+      <y>10</y>
       <width>45</width>
       <height>21</height>
      </rect>
@@ -275,6 +275,174 @@
     <property name="value">
      <number>1</number>
     </property>
+   </widget>
+   <widget class="QCustomPlot" name="koeff" native="true">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>80</y>
+      <width>351</width>
+      <height>241</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>20</y>
+      <width>87</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>K</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>10</y>
+      <width>66</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>nF</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>40</y>
+      <width>66</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>kOhm</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="ef">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>10</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="st">
+    <property name="geometry">
+     <rect>
+      <x>1170</x>
+      <y>30</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>1090</x>
+      <y>10</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>END FREQ</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>1085</x>
+      <y>30</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>STEP FREQ</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>151</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ranges of oscilloscope</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>151</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>20mV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>50mV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>100mV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>200mV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>500mV</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1V</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2V</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>5V</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>10V</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>20V</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

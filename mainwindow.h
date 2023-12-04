@@ -29,6 +29,7 @@ public:
     double *mFftIn;
     double *mFftOut;
     double freqMult;
+    int device;
 
 private slots:
     void on_startButton_clicked();
@@ -37,7 +38,7 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void on_test_clicked();
+    void on_pushButton_3_clicked();
 
 private:
     Ui::MainWindow *ui;

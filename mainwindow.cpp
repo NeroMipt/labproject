@@ -26,17 +26,20 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
-MainWindow::~MainWindow()
-{
-    ps2000_close_unit ( unitOpened.handle );
-    delete ui;
-}
-
 int write_file(int fd, char *str)
 {
     qDebug() << str;
     return write(fd, str, strlen(str));
 }
+
+MainWindow::~MainWindow()
+{
+    write_file(device, "C1:OUTP OFF");
+    ps2000_close_unit ( unitOpened.handle );
+    delete ui;
+}
+
+
 
 
 
@@ -62,7 +65,7 @@ void MainWindow::on_startButton_clicked()
                                     0,
                                     PS2000_UPDOWN, 0);*/
     //FILE *device;
-    int device = open("/dev/usbtmc0", O_RDWR | O_NOCTTY);
+    device = open("/dev/usbtmc0", O_RDWR | O_NOCTTY);
     qDebug() << strerror(errno);
     if (device == -1)
     {
@@ -79,7 +82,7 @@ void MainWindow::on_startButton_clicked()
     br = fr.toLocal8Bit();
     write_file(device, br.data());
     usleep(10000);
-    write_file(device, "C1:BSWV AMP, 2");
+    write_file(device, "C1:BSWV AMP, 1");
     usleep(10000);
     write_file(device, "C1:OUTP ON");
     usleep(10000);
@@ -94,6 +97,8 @@ void MainWindow::on_pushButton_clicked()
     double yyA[BUFFER_SIZE];
     double yyB[BUFFER_SIZE];
     QVector<double> x(BUFFER_SIZE), yA(BUFFER_SIZE), yB(BUFFER_SIZE);
+    unitOpened.channelSettings [PS2000_CHANNEL_A].range = ui->comboBox_2->currentIndex()+1;
+    unitOpened.channelSettings [PS2000_CHANNEL_B].range = ui->comboBox_2->currentIndex()+1;
     collect_block_immediate(xx, yyA, yyB);
     for(int i = 0; i < BUFFER_SIZE; i++)
     {
@@ -145,7 +150,7 @@ void MainWindow::on_pushButton_2_clicked()
 
 
         QVector<double> K;
-        QVector<double> FR;
+        K.clear();
         double DATA_A[BUFFER_SIZE];
         double uselesstime[BUFFER_SIZE];
         double DATA_B[BUFFER_SIZE];
@@ -170,7 +175,8 @@ void MainWindow::on_pushButton_2_clicked()
         connect(ui->deltaPlot->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->deltaPlot->yAxis2, SLOT(setRange(QCPRange)));
 
 
-
+        unitOpened.channelSettings [PS2000_CHANNEL_A].range = ui->comboBox_2->currentIndex()+1;
+        unitOpened.channelSettings [PS2000_CHANNEL_B].range = ui->comboBox_2->currentIndex()+1;
         collect_block_immediate(uselesstime, DATA_A, DATA_B);
         freqMult = 1000 / ( (uselesstime[2] - uselesstime[1]) * BUFFER_SIZE );
         qDebug() << uselesstime[1];
@@ -185,6 +191,8 @@ void MainWindow::on_pushButton_2_clicked()
         fftw_execute(mFftPlan);
 
         QVector<double> fftVec;
+        fftVec.clear();
+        mFftIndices.clear();
         for (int i = 0;
                  i < 512;
                  i += 1) {
@@ -229,6 +237,7 @@ void MainWindow::on_pushButton_2_clicked()
         fftw_execute(mFftPlan);
 
         QVector<double> fftIn;
+        fftIn.clear();
         for (int i = 0;
                  i < 512;
                  i += 1) {
@@ -265,6 +274,8 @@ void MainWindow::on_pushButton_2_clicked()
 
 
         QVector<double> fftH;
+        QVector<double> stepT;
+        stepT.clear();
         for(int i = 0;
                 i < 512;
                 i++)
@@ -273,12 +284,16 @@ void MainWindow::on_pushButton_2_clicked()
             {
                 fftH.append(fftVec[i] / fftIn[i]);
             }else fftH.append(0);
-            K.append(0.25 / sqrt(1 + freqMult * freqMult * i * i *  R * R * C * C));
+        }
+        for(int i = 0; i < 20000000; i++)
+        {
+            double w = 4 * 3.14 * 3.14 * double(i) * double(i) *  R * R * C * C;
+            K.append(1 / sqrt(1 + w/1e12));
+            stepT.append(i/1e6);
         }
 
-
         ui->HFunc->graph(0)->setData(mFftIndices,fftH);
-        ui->HFunc->graph(1)->setData(mFftIndices, K);
+        ui->HFunc->graph(1)->setData(stepT, K);
 
 
 
@@ -292,4 +307,86 @@ void MainWindow::on_pushButton_2_clicked()
 
 
 
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+        double RG[] = {0.0, 0.0, 50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 5000.0, 10000.0, 20000.0};
+        double xx[BUFFER_SIZE];
+        double yyA[BUFFER_SIZE];
+        double yyB[BUFFER_SIZE];
+        QVector<double> step;
+        QVector<double> k;
+        QVector<double> stepT;
+        double R = ui->resister->value();
+        double C = ui->capacity->value();
+
+
+        QVector<double> p;
+
+        QByteArray br;
+        write_file(device, "C1:BSWV WVTP, sine");
+
+        ui->koeff->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+        ui->koeff->legend->setVisible(false);
+        ui->koeff->yAxis->setLabel("");
+        ui->koeff->xAxis->setLabel("Frequency, Hz");
+        ui->koeff->xAxis->setRange(RANGE_START, RANGE_END);
+        ui->koeff->yAxis->setRange(0.0, 500.0);
+        ui->koeff->clearGraphs();
+        ui->koeff->addGraph();
+
+        ui->koeff->graph(0)->setPen(QPen(Qt::blue));
+        ui->koeff->graph()->setName("K");
+        ui->koeff->addGraph();
+        ui->koeff->graph(1)->setPen(QPen(Qt::red));
+        // make left and bottom axes always transfer their ranges to right and top axes:
+        connect(ui->koeff->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->koeff->xAxis2, SLOT(setRange(QCPRange)));
+        connect(ui->koeff->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->koeff->yAxis2, SLOT(setRange(QCPRange)));
+        unitOpened.channelSettings [PS2000_CHANNEL_B].range = ui->comboBox_2->currentIndex()+1;
+        int ranges = 10;
+        double maxV = 0;
+        int average = 1;
+        for(int i = 1000; i < ui->ef->text().toInt(); i += ui->st->text().toInt())
+        {
+            QString fr   = "C1:BSWV FRQ, ";
+            fr.append(QString::number(i));
+            br = fr.toLocal8Bit();
+            write_file(device, br.data());
+
+            ranges++;
+            do
+            {
+                ranges--;
+                unitOpened.channelSettings [PS2000_CHANNEL_A].range = ranges;
+                collect_block_immediate(xx, yyA, yyB);
+                qSort(yyA, yyA + BUFFER_SIZE);
+                if(yyA[BUFFER_SIZE - 1] < 0)yyA[BUFFER_SIZE - 1] *= -1;
+                qDebug() << "ranges: " << ranges << " power: " << yyA[BUFFER_SIZE - 1] << " RG: " << RG[ranges];
+            }while(yyA[BUFFER_SIZE - 1] < 0.6 * RG[ranges]);
+            qSort(yyB, yyB + BUFFER_SIZE);
+            if(yyB[BUFFER_SIZE - 1] < 0)yyB[BUFFER_SIZE - 1] *= -1;
+            maxV += yyB[BUFFER_SIZE - 1] / average;
+            average++;
+            k.append(yyA[BUFFER_SIZE - 1] / maxV);
+            step.append(i);
+            ui->koeff->graph(0)->setData(step, k);
+
+            ui->koeff->replot();
+            ui->koeff->graph(0)->rescaleAxes();
+            // Allow user to drag axis ranges with mouse, zoom with mouse wheel and select graphs by clicking:
+            ui->koeff->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+        }
+
+        for(int i = 0; i < ui->ef->text().toInt(); i++)
+        {
+            double w = double(i) * double(i) *  R * R * C * C;
+            p.append(1 / sqrt(1 + w/1e12));
+            stepT.append(i);
+        }
+        ui->koeff->graph(1)->setData(stepT, p);
+        ui->koeff->replot();
+        ui->koeff->graph(1)->rescaleAxes(true);
+
+}
 

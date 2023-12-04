@@ -452,7 +452,7 @@ void set_defaults (void)
 			                   ch,
 								unitOpened.channelSettings[ch].enabled ,
 								unitOpened.channelSettings[ch].DCcoupled ,
-								unitOpened.channelSettings[ch].range);
+                                unitOpened.channelSettings[ch].range);
 	}
 }
 
@@ -559,7 +559,7 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
     //printf ( "Press a key to start\n" );
     //_getch ();
 
-	set_defaults ();
+    set_defaults ();
 
 	/* Trigger disabled */
 	ps2000_set_trigger ( unitOpened.handle, PS2000_NONE, 0, PS2000_RISING, 0, auto_trigger_ms );
@@ -638,8 +638,8 @@ void collect_block_immediate (double *Time_axisX, double *VoltageA_axisY, double
                 //fprintf ( fp, ", %d, %d", unitOpened.channelSettings[ch].values[i],
                                         //	adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range) );
                 if(ch % 2)
-                    VoltageB_axisY[i] = 2 * adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
-                else VoltageA_axisY[i] = 2 * adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
+                    VoltageB_axisY[i] = adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
+                else VoltageA_axisY[i] = adc_to_mv ( unitOpened.channelSettings[ch].values[i],	unitOpened.channelSettings[ch].range);
 
 			}
 		}
