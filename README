@@ -1,0 +1,7 @@
+README FILE
+This program was made to minimise errors from students at measurements.
+The interface of the program is very simple. It consists from two widgets, which will display plots of signals and spectres, buttons to manipulate oscilloscope and functions.
+1) Button "START" account for strarting the osciloscope`s generator. Before strating generating, you can choose the frequency of the signal in spinBox and the form of signal in combobox.
+The frequency should be between 1kHz and 20MHz. 
+2) Button "BLOCK" account for collecting data from both channels. It gets 1024 points of signal and plot voltage versus time. The blue line requires for A channel, red -- B channel.
+3) Button "START FFT" makes a fouire transform form input signal and plots voltage versus frequency.
