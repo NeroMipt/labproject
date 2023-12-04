@@ -381,7 +381,7 @@ void MainWindow::on_pushButton_3_clicked()
         for(int i = 0; i < ui->ef->text().toInt(); i++)
         {
             double w = double(i) * double(i) *  R * R * C * C;
-            p.append(1 / sqrt(1 + w/1e12));
+            p.append(1 / sqrt(1 + (4 * 3.14 * 3.14 * w) / 1e12));
             stepT.append(i);
         }
         ui->koeff->graph(1)->setData(stepT, p);
